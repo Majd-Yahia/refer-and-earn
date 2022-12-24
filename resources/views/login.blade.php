@@ -12,7 +12,9 @@
                     <!--begin::Wrapper-->
                     <div class="w-lg-500px p-10">
                         <!--begin::Form-->
-                        <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="/../demo25/index.html" action="#">
+                        <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" method="post" action="{{ route('login.store') }}">
+                            @csrf
+
                             <!--begin::Heading-->
                             <div class="text-center mb-11">
                                 <!--begin::Title-->
@@ -25,16 +27,20 @@
                             <!--begin::Input group=-->
                             <div class="fv-row mb-8 fv-plugins-icon-container">
                                 <!--begin::Email-->
-                                <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent">
+                                <input type="text" placeholder="Phone Number" value="{{ old('phone_number') }}" name="phone_number" class="form-control bg-transparent">
                                 <!--end::Email-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                                @if ($errors->has('phone_number'))
+                                    <span class="text-danger text-left mt-4">{{ $errors->first('phone_number') }}</span>
+                                @endif
                             </div>
                             <!--end::Input group=-->
                             <div class="fv-row mb-3 fv-plugins-icon-container">
                                 <!--begin::Password-->
                                 <input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent">
                                 <!--end::Password-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                                @if ($errors->has('password'))
+                                    <span class="text-danger text-left mt-4">{{ $errors->first('password') }}</span>
+                                @endif
                             </div>
                             <!--end::Input group=-->
                             <!--begin::Wrapper-->
@@ -90,11 +96,4 @@
         </div>
         <!--end::Authentication - Sign-in-->
     </div>
-
-    @push('scripts')
-    <!--begin::Custom Javascript(used for this page only)-->
-    <script src="/assets/js/custom/authentication/sign-in/general.js"></script>
-    <!--end::Custom Javascript-->
-    @endpush
-
 @endsection

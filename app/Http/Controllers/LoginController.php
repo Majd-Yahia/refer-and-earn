@@ -9,28 +9,7 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    /**
-     * Handle an authentication attempt.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return Response
-     */
-    public function login(LoginRequest $request)
-    {
-        $credentials = $request->only('email', 'password');
 
-        try {
-            if (Auth::attempt($credentials)) {
-                // Authentication passed...
-                return redirect()->intended("/");
-            }
-
-            return response()->json(['error' => 'Something went wrong'], 401);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => 'Something went wrong'], 500);
-        }
-    }
 
 
     /**
@@ -59,6 +38,31 @@ class LoginController extends Controller
     }
 
 
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return Response
+     */
+    public function login(LoginRequest $request)
+    {
+        $credentials = $request->only('phone_number', 'password');
+        // dd(Auth::check(), Auth::attempt(['phone_number' => $request['phone_number'], 'password' => $request['password']]));
+
+        try {
+            if (Auth::attempt($credentials)) {
+                // Authentication passed...
+                return redirect()->intended("/");
+            }
+
+            return back()->withErrors(['phone_number' => 'The provided credentials are incorrect.']);
+        } catch (\Throwable $th) {
+            return back()->withErrors(['phone_number' => 'Something went wrong']);
+        }
+    }
+
+
     public function register(RegisterRequest $request)
     {
         $attributes = $request->only('email', 'name', 'phone_number', 'dob', 'referal_code', 'password', 'avatar');
@@ -81,8 +85,7 @@ class LoginController extends Controller
             }
         } catch (\Throwable $th) {
             //throw $th;
-            dd($th);
-            return response()->json(['error' => 'Something went wrong'], 401);
+            return redirect()->back()->withErrors(['phone_number' => 'Something went wrong']);
         }
     }
 }
