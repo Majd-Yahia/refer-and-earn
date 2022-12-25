@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $this->id,
             'phone_number' => 'required|unique:users,phone_number,' . $this->id,
             'dob' => 'nullable|date',
-            'password' => 'nullable|confirmed|min:8',
+            'password' => 'nullable|min:8',
             'avatar' => 'nullable|file|image|max:5242',
         ];
     }

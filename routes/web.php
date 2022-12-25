@@ -22,13 +22,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/clients', [HomeController::class, 'clients'])->name('clients');
 
-    Route::middleware(['can:admin'])->group(function () {
+    Route::middleware(['can:admin.show'])->group(function () {
         Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
         Route::patch('/users/{id}', [UsersController::class, 'update'])->name('users.update');
         Route::delete('/users/{id}', [UsersController::class, 'delete'])->name('users.delete');
 
         Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
     });
+
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });

@@ -204,6 +204,63 @@
                     <!--end::Input group-->
 
 
+                    @if (Auth::id() == $user->id)
+                        <!--begin::Input group-->
+                        <div class="row mb-6">
+                            <!--begin::Label-->
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                                <span>Password</span>
+                                <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                    aria-label="Phone number must be active"
+                                    data-bs-original-title="Phone number must be active" data-kt-initialized="1"></i>
+                            </label>
+                            <!--end::Label-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                                <div class="fv-row mb-8 fv-plugins-icon-container" data-kt-password-meter="true">
+                                    <!--begin::Wrapper-->
+                                    <div class="mb-1">
+                                        <!--begin::Input wrapper-->
+                                        <div class="position-relative mb-3">
+                                            <input class="form-control bg-transparent" type="password"
+                                                placeholder="Password" name="password" autocomplete="off">
+                                            <span
+                                                class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+                                                data-kt-password-meter-control="visibility">
+                                                <i class="bi bi-eye-slash fs-2"></i>
+                                                <i class="bi bi-eye fs-2 d-none"></i>
+                                            </span>
+                                        </div>
+                                        <!--end::Input wrapper-->
+                                        <!--begin::Meter-->
+                                        <div class="d-flex align-items-center mb-3"
+                                            data-kt-password-meter-control="highlight">
+                                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2">
+                                            </div>
+                                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2">
+                                            </div>
+                                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2">
+                                            </div>
+                                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+                                        </div>
+                                        <!--end::Meter-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                    <!--begin::Hint-->
+                                    <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp;
+                                        symbols.</div>
+                                    <!--end::Hint-->
+                                    @error('password')
+                                        <small class="fv-plugins-message-container invalid-feedback">
+                                            {{ $errors->first('password') }}
+                                        </small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+                    @endif
                 </div>
                 <!--end::Card body-->
                 <!--begin::Actions-->
