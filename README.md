@@ -8,4 +8,4 @@
 </p>
 
 ## About Project
-This is a task administrated for [Ingotbrokers Co](https://www.ingotbrokers.com.jo/en), with pdf that explains the task [Task PDF](https://github.com/Majd-Yahia/refer-and-earn/task.pdf)
+This is a task administrated for [Ingotbrokers Co](https://www.ingotbrokers.com.jo/en), with pdf that explains the task [Task PDF](https://github.com/Majd-Yahia/refer-and-earn/blob/main/task.pdf)
