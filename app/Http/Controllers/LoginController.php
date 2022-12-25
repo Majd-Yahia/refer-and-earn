@@ -21,7 +21,7 @@ class LoginController extends Controller
      */
     public function login_page()
     {
-        return view('login');
+        return view('pages.login');
     }
 
 
@@ -34,9 +34,21 @@ class LoginController extends Controller
      */
     public function register_page()
     {
-        return view('login');
+        return view('pages.register');
     }
 
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return Response
+     */
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
+    }
 
     /**
      * Handle an authentication attempt.
@@ -48,7 +60,6 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = $request->only('phone_number', 'password');
-        // dd(Auth::check(), Auth::attempt(['phone_number' => $request['phone_number'], 'password' => $request['password']]));
 
         try {
             if (Auth::attempt($credentials)) {
@@ -70,14 +81,17 @@ class LoginController extends Controller
         try {
             $credentials = ['email' => $attributes['email'], 'password' => $attributes['password']];
 
-            // Generate a unique file name for the avatar
-            $fileName = uniqid() . '.' . $attributes['avatar']->getClientOriginalExtension();
+            if (isset($attributes['avatar'])) {
+                // Generate a unique file name for the avatar
+                $fileName = uniqid() . '.' . $attributes['avatar']->getClientOriginalExtension();
 
-            // Store the avatar file on the server using the Storage facade
-            $attributes['avatar']->storeAs('users', $fileName);
-            $attributes['avatar'] = $fileName;
+                // Store the avatar file on the server using the Storage facade
+                $attributes['avatar']->storeAs('public/users', $fileName);
+                $attributes['avatar'] = $fileName;
+            }
 
-            User::create($attributes);
+            $user = User::create($attributes);
+            $user->assignRole('user');
 
             if(Auth::attempt($credentials))
             {

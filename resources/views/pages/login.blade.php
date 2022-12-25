@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('container')
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root" id="kt_app_root">
         <!--begin::Authentication - Sign-in -->

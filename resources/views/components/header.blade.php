@@ -28,7 +28,7 @@
                 <!--begin::Logo-->
                 <div class="d-flex align-items-center me-3">
                     <a href="../demo25/index.html">
-                        <img alt="Logo" src="assets/media/logos/default-small.svg" class="h-25px">
+                        <img alt="Logo" src="/assets/media/logos/default-small.svg" class="h-25px">
                     </a>
                 </div>
                 <!--end::Logo-->
@@ -50,7 +50,21 @@
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="../demo25/index.html" class="text-muted text-hover-primary">Dashboard</a>
+                            <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Dashboard</a>
+
+                            @if (Route::currentRouteName() == "clients")
+                                <li class="breadcrumb-item">
+                                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                                </li>
+                                <li class="breadcrumb-item text-muted">Clients</li>
+                            @endif
+
+                            @if (Route::currentRouteName() == "users.edit")
+                                <li class="breadcrumb-item">
+                                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                                </li>
+                                <li class="breadcrumb-item text-muted">User Edit</li>
+                            @endif
                         </li>
                         <!--end::Item-->
                     </ul>
@@ -60,7 +74,9 @@
             </div>
             <!--end::Page title wrapper-->
 
-
+            @php
+                $image = isset(Auth::user()->avatar)? '/storage/users/' . Auth::user()->avatar: 'assets/media/avatars/300-2.jpg';
+            @endphp
 
             <!--begin::Navbar-->
             <div class="app-navbar flex-stack flex-shrink-0" id="kt_app_aside_navbar">
@@ -72,7 +88,7 @@
                         <div class="cursor-pointer symbol symbol-40px"
                             data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"
                             data-kt-menu-placement="bottom-start">
-                            <img src="assets/media/avatars/300-2.jpg" alt="user">
+                            <img src="{{ url($image) }}" src="assets/media/avatars/300-2.jpg" alt="user">
                         </div>
                         <!--begin::User account menu-->
                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
@@ -82,17 +98,15 @@
                                 <div class="menu-content d-flex align-items-center px-3">
                                     <!--begin::Avatar-->
                                     <div class="symbol symbol-50px me-5">
-                                        <img alt="Logo" src="assets/media/avatars/300-2.jpg">
+                                        <img alt="Logo" src="{{ url($image) }}" src="">
                                     </div>
                                     <!--end::Avatar-->
                                     <!--begin::Username-->
                                     <div class="d-flex flex-column">
-                                        <div class="fw-bold d-flex align-items-center fs-5">Alice Page
-                                            <span
-                                                class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
+                                        <div class="fw-bold d-flex align-items-center fs-5"> {{ $user->name}}
                                         </div>
                                         <a href="#"
-                                            class="fw-semibold text-muted text-hover-primary fs-7">alice@kt.com</a>
+                                            class="fw-semibold text-muted text-hover-primary fs-7">{{ $user->email }} </a>
                                     </div>
                                     <!--end::Username-->
                                 </div>
@@ -262,46 +276,10 @@
                             </div>
                             <!--end::Menu item-->
 
-                            <!--begin::Menu item-->
-                            <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
-                                data-kt-menu-placement="left-start" data-kt-menu-offset="-15px, 0">
-                                <a href="#" class="menu-link px-5">
-                                    <span class="menu-title position-relative">Language
-                                        <span
-                                            class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">English
-                                            <img class="w-15px h-15px rounded-1 ms-2"
-                                                src="assets/media/flags/united-states.svg"
-                                                alt=""></span></span>
-                                </a>
-                                <!--begin::Menu sub-->
-                                <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="../demo25/account/settings.html"
-                                            class="menu-link d-flex px-5 active">
-                                            <span class="symbol symbol-20px me-4">
-                                                <img class="rounded-1" src="assets/media/flags/united-states.svg"
-                                                    alt="">
-                                            </span>English</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="../demo25/account/settings.html" class="menu-link d-flex px-5">
-                                            <span class="symbol symbol-20px me-4">
-                                                <img class="rounded-1" src="assets/media/flags/spain.svg"
-                                                    alt="">
-                                            </span>Spanish</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                </div>
-                                <!--end::Menu sub-->
-                            </div>
-                            <!--end::Menu item-->
 
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
-                                <a href="../demo25/authentication/layouts/corporate/sign-in.html"
+                                <a href="{{ route('logout') }}"
                                     class="menu-link px-5">Sign Out</a>
                             </div>
                             <!--end::Menu item-->
@@ -313,10 +291,9 @@
                     <!--begin:Info-->
                     <div class="d-flex flex-column">
                         <a href="../demo25/pages/user-profile/overview.html"
-                            class="app-navbar-user-name text-gray-900 text-hover-primary fs-5 fw-bold">Alice
-                            Page</a>
-                        <span class="app-navbar-user-info text-gray-600 fw-semibold fs-7">UI/UX Design
-                            Lean</span>
+                            class="app-navbar-user-name text-gray-900 text-hover-primary fs-5 fw-bold">
+                            {{ $user->name}}
+                        </a>
                     </div>
                     <!--end:Info-->
                 </div>

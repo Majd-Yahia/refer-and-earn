@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('code')->unique()->index();
-            $table->unsignedBigInteger('referrer')->nullable()->references('id')->on('users');
+        Schema::create('user_points', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('points')->default(5);
+            $table->timestamps();
         });
     }
 
@@ -26,9 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('code');
-            $table->dropColumn('referrer');
-        });
+        Schema::dropIfExists('user_points');
     }
 };

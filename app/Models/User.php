@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Str;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +49,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['referedBy'];
 
     /**
      * Set the user's password.
@@ -56,7 +59,7 @@ class User extends Authenticatable
      */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        $this->attributes['password'] = Hash::make($value);
     }
 
     protected static function booted()
@@ -84,9 +87,19 @@ class User extends Authenticatable
         return $this->referrers()->count();
     }
 
+    public function points()
+    {
+        return $this->hasMany(UserPoint::class);
+    }
+
     public function referrers()
     {
-        return $this->hasMany(self::class, 'referrer', 'id')->with('referrer');
+        return $this->hasMany(self::class, 'referrer', 'id')->with('referrers');
+    }
+
+    public function referedBy()
+    {
+        return $this->belongsTo(self::class, 'referrer', 'id');
     }
 
     public static function CalculatePoints($user)
@@ -100,6 +113,6 @@ class User extends Authenticatable
             $points = 10;
         }
 
-        $user->increment('points', $points);
+        UserPoint::create([ 'user_id' => $user->id, 'points' => $points ]);
     }
 }

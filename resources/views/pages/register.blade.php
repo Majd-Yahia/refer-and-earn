@@ -12,7 +12,7 @@
     </style>
 @endpush
 
-@section('content')
+@section('container')
     <div class="d-flex flex-column flex-root" id="kt_app_root">
         <!--begin::Authentication - Sign-up -->
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
@@ -24,8 +24,7 @@
                     <div class="w-lg-500px p-10">
                         <!--begin::Form-->
                         <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" method="post"
-                            enctype="multipart/form-data"
-                            action="{{ route('register.store') }}">
+                            enctype="multipart/form-data" action="{{ route('register.store') }}">
                             @csrf
 
                             <!--begin::Heading-->
@@ -39,12 +38,13 @@
 
                             <div class="avatar mb-8">
                                 <div class="image-input image-input-outline" data-kt-image-input="true"
-                                    style="background-image: url('/metronic8/demo25/assets/media/svg/avatars/blank.svg'); width: min-content;" >
+                                    style="background-image: url(); width: min-content;">
                                     <!--begin::Preview existing avatar-->
                                     <div class="image-input-wrapper w-125px h-125px"
-                                        style="background-image: url(/metronic8/demo25/assets/media/avatars/300-1.jpg)">
+                                        style="background-image: url()">
                                     </div>
                                     <!--end::Preview existing avatar-->
+
                                     <!--begin::Label-->
                                     <label
                                         class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -58,6 +58,7 @@
                                         <!--end::Inputs-->
                                     </label>
                                     <!--end::Label-->
+
                                     <!--begin::Cancel-->
                                     <span
                                         class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -134,7 +135,7 @@
                             <div class="fv-row mb-8 fv-plugins-icon-container">
                                 <!--begin::Email-->
                                 <input class="form-control form-control-solid" placeholder="Pick a date" name="dob"
-                                    id="kt_datepicker_2" value="{{ old('dob') }}"/>
+                                    id="kt_datepicker_2" value="{{ old('dob') }}" />
                                 <!--end::Email-->
                                 @error('dob')
                                     <small class="fv-plugins-message-container invalid-feedback">
